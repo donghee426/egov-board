@@ -1,5 +1,28 @@
-CREATE MEMORY TABLE SAMPLE(ID VARCHAR(16) NOT NULL PRIMARY KEY,NAME VARCHAR(50),DESCRIPTION VARCHAR(100),USE_YN CHAR(1),REG_USER VARCHAR(10))
-CREATE MEMORY TABLE IDS(TABLE_NAME VARCHAR(16) NOT NULL PRIMARY KEY,NEXT_ID DECIMAL(30) NOT NULL)
+CREATE MEMORY TABLE BOARD (
+    IDX INT NOT NULL PRIMARY KEY,                -- 게시글 고유번호
+    USERID VARCHAR(50),                             -- 작성자 아이디
+    USERNAME VARCHAR(50),                           -- 작성자 이름
+    TITLE VARCHAR(200),                             -- 제목
+    CONTENT CLOB,                                   -- 내용
+    USE_YN CHAR(1),                                 -- 사용여부 (Y/N)
+    REG_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- 작성일
+    VIEW_COUNT INT DEFAULT 0                        -- 조회수
+);
+CREATE MEMORY TABLE IDS2 (
+    TABLE_NAME VARCHAR(30) NOT NULL PRIMARY KEY,	-- ID를 관리할 테이블 이름 (예: 'BOARD')
+    NEXT_ID INT NOT NULL					-- 다음에 사용할 게시글 번호 (PK 자동 증가용)
+);
+
+INSERT INTO IDS2 VALUES ('BOARD', 1);
+INSERT INTO BOARD VALUES (1, 'hong', '홍길동', '첫 번째 게시글', '안녕하세요. 첫 게시글입니다.', 'Y', CURRENT_TIMESTAMP, 12);
+INSERT INTO BOARD VALUES (2, 'lee', '이몽룡', '두 번째 글', '내용은 두 번째입니다.', 'Y', CURRENT_TIMESTAMP, 5);
+INSERT INTO BOARD VALUES (3, 'sung', '성춘향', '세 번째 글', '세 번째 글 내용입니다.', 'Y', CURRENT_TIMESTAMP, 0);
+INSERT INTO BOARD VALUES (4, 'byeon', '변학도', '비공개 글', '이 글은 사용 안 함', 'N', CURRENT_TIMESTAMP, 0);
+INSERT INTO BOARD VALUES (5, 'kim', '김철수', '테스트용 게시물', '게시판 테스트 중입니다.', 'Y', CURRENT_TIMESTAMP, 20);
+
+
+CREATE MEMORY TABLE SAMPLE(ID VARCHAR(16) NOT NULL PRIMARY KEY,NAME VARCHAR(50), DESCRIPTION VARCHAR(100),USE_YN CHAR(1),REG_USER VARCHAR(10));
+CREATE MEMORY TABLE IDS(TABLE_NAME VARCHAR(16) NOT NULL PRIMARY KEY, NEXT_ID DECIMAL(30) NOT NULL);
 SET SCHEMA PUBLIC
 INSERT INTO SAMPLE VALUES('SAMPLE-00001','Runtime Environment','Foundation Layer','Y','eGov')
 INSERT INTO SAMPLE VALUES('SAMPLE-00002','Runtime Environment','Persistence Layer','Y','eGov')

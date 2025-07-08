@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="egovframework.board.mapper.BoardMapper">
+
+<resultMap id="boardMap" type="egovframework.board.dto.BoardDTO">
+    <id property="idx" column="IDX"/>
+    <result property="userid" column="userid"/>
+    <result property="username" column="username"/>
+    <result property="title" column="title"/>
+    <result property="content" column="content"/>
+    <result property="useYn" column="use_yn"/>
+    <result property="regDate" column="reg_date"/>
+    <result property="viewCount" column="view_count"/>
+</resultMap>
+	
+	<!-- 게시글 전체 목록 -->
+	<select id="selectAllBoardList" resultType="egovframework.board.dto.BoardDTO">
+		SELECT * FROM BOARD ORDER BY IDX DESC;
+	</select>
+	
+    <!-- 게시글 단건 조회 -->
+    <select id="selectBoardByIdx" resultType="egovframework.board.dto.BoardDTO">
+        SELECT * FROM BOARD WHERE IDX = #{idx}
+    </select>
+    
+     <!-- 게시글 등록 -->
+     <insert id="insertBoard">
+     	INSERT INTO BOARD (
+     		IDX, USERID,USERNAME, TITLE, CONTENT, USER_YN, REG_DATE, VIEW_COUNT
+     	) VALUSE (
+     		#{idx}, #{userid}, #{username}, #{title}, #{content}, #{useYn}, CURRENT_TIMESTAMP, 0
+     	)
+     </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updateBoard">
+    	UPDATE BOARD 
+    	SET TITLE=#{title},
+    		CONTENT=#{content},
+    		USER_YN=#{useYn}
+    	WHERE IDX = #{idx}    		
+    </update>
+    
+    <!-- 게시글 삭제 -->
+    <delete id="deleteBoard">
+        DELETE FROM BOARD
+        WHERE IDX = #{idx}
+    </delete>
+    
+    <!-- 조회수 증가 -->
+    <update id="increaseViewCount">
+        UPDATE BOARD
+        SET VIEW_COUNT = VIEW_COUNT + 1
+        WHERE IDX = #{idx}
+    </update>
+    
+    <!-- 페이징 포함 게시글 목록 조회 -->
+    <select id="selectBoardList" parameterType="searchVO" resultType="egovMap">
+	    SELECT
+	        IDX, USERID,USERNAME, TITLE, USE_YN, REG_DATE, VIEW_COUNT
+	    FROM BOARD
+	    WHERE 1=1
+	    <if test="searchKeyword != null and searchKeyword != ''">
+	        <choose>
+	            <when test="searchCondition == 0">
+	                AND TITLE LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	            <when test="searchCondition == 1">
+	                AND USERNAME LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	        </choose>
+	    </if>
+	    ORDER BY IDX DESC
+	    LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+    
+    <!-- 총 게시물 수 조회 -->
+    <select id="selectBoardListTotCnt" parameterType="searchVO" resultType="int">
+	    SELECT COUNT(*) AS totcnt
+	    FROM BOARD
+	    WHERE 1=1
+	    <if test="searchKeyword != null and searchKeyword != ''">
+	        <choose>
+	            <when test="searchCondition == 0">
+	                AND TITLE LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	            <when test="searchCondition == 1">
+	                AND USERNAME LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	        </choose>
+	    </if>
+	</select>
+	    
+</mapper>
