@@ -1,0 +1,39 @@
+package com.example.project.dto;
+
+import com.example.project.entity.BoardEntity;
+import com.example.project.entity.MemberEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+@Data
+public class BoardDTO {
+    private String idx;
+    private String title;
+    private String userid;
+    private MultipartFile[] upfile;
+
+    public BoardDTO()
+    {
+    }
+
+    public BoardDTO(String idx, String title)
+    {
+        this.idx = idx;
+        this.title = title;
+    }
+
+    /*
+    public BoardEntity toEntity()
+    {
+        BoardEntity board = BoardEntity.builder()
+                .title(str_title)
+                .content(str_content)
+                .build();
+
+        return board;
+    }
+
+     */
+}

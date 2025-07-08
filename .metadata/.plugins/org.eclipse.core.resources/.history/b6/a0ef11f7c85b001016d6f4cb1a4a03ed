@@ -1,0 +1,13 @@
+package egovframework.example.board.service;
+
+import egovframework.example.board.dto.BoardDTO;
+
+public class BoardServiceImpl implements BoardService {
+
+	@Override
+	public void list() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
