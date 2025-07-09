@@ -49,6 +49,7 @@ public class BoardController {
     @Resource(name = "boardMapper")
     private BoardMapper boardMapper;
 	
+    /** 게시글 조회 (페이징&검색포함) */
 	@RequestMapping(value = "/boardList.do")
 	public String selectSampleList(@ModelAttribute("searchVO") BoardSearchVO searchVO, ModelMap model) throws Exception {
 

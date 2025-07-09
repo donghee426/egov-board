@@ -19,25 +19,25 @@ public class BoardSearchVO implements Serializable {
 
     /** 검색 사용 여부 (예: Y/N 필터용) */
     private String searchUseYn = "";
-
-    /** 현재 페이지 번호 */
+    
+    /** 현재 페이지 번호 (기본값 1페이지) */
     private int pageIndex = 1;
 
-    /** 한 페이지 게시글 수 */
+    /** 한 페이지에 보여줄 게시글 수 (예: 10개) */
     private int pageUnit = 10;
 
-    /** 페이지 하단에 보일 페이징 숫자 수 */
-    private int pageSize = 10;
+    /** 페이지 하단에 보여줄 페이지 번호 개수 (예: [1][2][3][4][5]) */
+    private int pageSize = 3;
 
-    /** LIMIT OFFSET 시작 인덱스 */
+    /** LIMIT 쿼리에서 사용할 시작 인덱스 (예: 0부터 시작) */
     private int firstIndex = 0;
 
-    /** 마지막 인덱스 (사용 안 할 수도 있음) */
+    /** 마지막 인덱스 (보통 사용하지 않음) */
     private int lastIndex = 0;
 
-    /** LIMIT 개수 */
+    /** LIMIT 쿼리에서 사용할 개수 → 보통 pageUnit과 같은 값 */
     private int recordCountPerPage = 10;
-
+    
     // Getter/Setter
     public String getSearchCondition() {
         return searchCondition;

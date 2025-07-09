@@ -50,10 +50,15 @@
 
     <!-- For Pagination Tag -->
     <bean id="imageRenderer" class="egovframework.example.cmmn.web.EgovImgPaginationRenderer"/>
+    
+	<!-- 텍스트 기반 Pagination Renderer 등록 -->
+	<bean id="textRenderer" class="egovframework.board.cmmn.MyTextPaginationRenderer"/>
 
+	<!-- 이미지 & 텍스트 둘 다 지원 -->
     <bean id="paginationManager" class="org.egovframe.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
         <property name="rendererType">
             <map>
+           		<entry key="text" value-ref="textRenderer"/>
                 <entry key="image" value-ref="imageRenderer"/>
             </map>
         </property>

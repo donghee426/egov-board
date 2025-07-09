@@ -16,6 +16,12 @@
         <Logger name="org.egovframe" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
+        
+        <!-- Spring Web MVC 요청 로그 추가 -->
+        <Logger name="org.springframework.web.servlet" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        
           <!-- log SQL with timing information, post execution -->
         <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
             <AppenderRef ref="console" />
