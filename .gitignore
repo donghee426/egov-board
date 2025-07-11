@@ -1,26 +1,25 @@
-# Compiled class file
+# 컴파일 파일
 *.class
 
-# Log file
+# 로그/백업/패키징 파일
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
-*.nar
 *.ear
-*.zip
-*.tar.gz
-*.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Eclipse IDE 설정
+.settings/
+.metadata/
+*.prefs
+.classpath
+.project
+
+# build
+bin/
+target/
+
+# 기타
 hs_err_pid*
 replay_pid*
-/.metadata/
-*.prefs
+.DS_Store
+Thumbs.db
