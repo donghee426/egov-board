@@ -1,8 +1,0 @@
-package egovframework.example.board.service;
-
-import egovframework.example.board.dto.BoardDTO;
-
-
-public interface BoardService {
-    void list();
-}
