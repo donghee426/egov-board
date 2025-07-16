@@ -18,6 +18,10 @@ package egovframework.board.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -26,7 +30,10 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.board.dto.BoardDTO;
 import egovframework.board.dto.BoardSearchVO;
@@ -77,5 +84,78 @@ public class BoardController {
 		return "board/boardList";
 	}
 
+	/** 게시글 상세 조회 */
+	@RequestMapping(value = "/view.do")
+	public String boardView(@RequestParam("idx") Long idx, Model model,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 1. 쿠키 확인
+		Cookie[] cookies = request.getCookies();
+		boolean isViewed = false;
+		
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				if(cookie.getName().equals("viewed_" + idx)) {
+					isViewed = true;
+					break;
+				}
+			}
+		}
+		
+		// 2. 조회수 증가(쿠키 없읗 때만)
+		if(!isViewed) {
+			boardService.increaseViewCount(idx);
+			
+			// 3. 쿠키 생성
+			Cookie viewCookie = new Cookie("viewed_" + idx, "true");
+			viewCookie.setMaxAge(60 * 60); 	//1시간 유지
+			viewCookie.setPath("/");		//전체 경로에서 유효
+			response.addCookie(viewCookie);
+			
+		}
+		
+		// 4. 게시글 조회
+	    BoardDTO board = boardService.selectBoardByIdx(idx);
+	    model.addAttribute("board", board);
+	    
+	    return "board/view";
+	}
+
+	/** 게시글 등록화면 */	
+	@RequestMapping(value = "/write.do")
+	public String boardWriteView(Model model) {
+	    model.addAttribute("boardDTO", new BoardDTO());
+	    return "board/write";
+	}
+	
+	/** 게시글 등록처리 */
+	@RequestMapping(value = "/writeProc.do", method = RequestMethod.POST)
+	public String insertBoard(@ModelAttribute("boardDTO") BoardDTO dto) throws Exception {
+	    boardService.insertBoard(dto);
+	    return "redirect:/boardList.do";
+	}
+
+	/** 게시글 수정화면 */	
+	@RequestMapping("/update.do")
+	public String boardUpdateForm(@RequestParam("idx") Long idx, Model model) throws Exception {
+	    BoardDTO board = boardService.selectBoardByIdx(idx);
+	    model.addAttribute("boardDTO", board);
+	    
+	    System.out.println(">>>>>" + board.getIdx());
+	    return "board/write"; 
+	}
+
+    /** 게시글 수정처리 */
+    @RequestMapping(value = "/updateProc.do", method = RequestMethod.POST)
+    public String updateBoard(@ModelAttribute("boardDTO") BoardDTO dto) throws Exception {
+        boardService.updateBoard(dto);
+        return "redirect:/view.do?idx=" + dto.getIdx();
+    }
+
+	/** 게시글 삭제처리 */
+    @RequestMapping(value = "/deleteProc.do", method = RequestMethod.POST)
+    public String deleteBoard(@RequestParam("idx") Long idx) throws Exception {
+    	boardService.deleteBoard(idx);
+    	return "redirect:/boardList.do";
+    }
 
 }

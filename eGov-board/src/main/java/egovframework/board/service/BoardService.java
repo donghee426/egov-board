@@ -37,4 +37,6 @@ public interface BoardService {
 
     /** 게시글 조회수 증가 */
     void increaseViewCount(Long idx) throws Exception;
+    
+    
 }

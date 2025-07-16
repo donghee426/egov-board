@@ -53,10 +53,15 @@ public class BoardServiceImpl implements BoardService {
     /** 게시글 등록 */
     @Override
     public void insertBoard(BoardDTO dto) throws Exception {
-        Long nextIdx = boardMapper.getNextBoardIdx();  // IDS2에서 다음 ID 조회
-        dto.setIdx(nextIdx);                           // DTO에 ID 설정
+        Long maxIdx = boardMapper.selectMaxBoardIdx(); // 현재 BOARD 테이블에서 최대 IDX 조회
+        Long nextIdx = maxIdx + 1;                     // 다음 IDX 계산
+        
+        dto.setIdx(nextIdx);                           // DTO에 ID 설정        
         boardMapper.insertBoard(dto);                  // DB에 INSERT
-        boardMapper.updateNextBoardIdx();              // IDS2의 NEXT_ID +1 업데이트
+
+        //System.out.println("현재 BOARD 테이블 maxIdx: " + maxIdx);  // 로그 확인용 출력
+        //System.out.println("현재 BOARD 테이블 nextIdx: " + nextIdx);  // 로그 확인용 출력        
+		//System.out.println(">>> insert 요청: " + dto.toString());
     }
 
     /** 게시글 수정 */
@@ -76,4 +81,6 @@ public class BoardServiceImpl implements BoardService {
     public void increaseViewCount(Long idx) throws Exception {
         boardMapper.increaseViewCount(idx);
     }
+    
+    
 }

@@ -78,4 +78,19 @@ public class BoardDTO {
     public void setViewCount(Integer viewCount) {
         this.viewCount = viewCount;
     }
+    
+    @Override
+    public String toString() {
+        return "BoardDTO{" +
+                "idx=" + idx +
+                ", userid='" + userid + '\'' +
+                ", username='" + username + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", useYn='" + useYn + '\'' +
+                ", regDate=" + regDate +
+                ", viewCount=" + viewCount +
+                '}';
+    }
+
 }

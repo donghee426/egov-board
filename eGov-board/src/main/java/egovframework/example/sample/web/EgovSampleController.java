@@ -166,7 +166,8 @@ public class EgovSampleController {
 	 * @return @ModelAttribute("sampleVO") - 조회한 정보
 	 * @exception Exception
 	 */
-	public SampleVO selectSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
+	public SampleVO selectSample(SampleVO sampleVO, 
+			@ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
 		return sampleService.selectSample(sampleVO);
 	}
 

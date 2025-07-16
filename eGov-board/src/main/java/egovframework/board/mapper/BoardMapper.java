@@ -37,10 +37,8 @@ public interface BoardMapper {
 
     /** 게시글 조회수 증가 */
     void increaseViewCount(Long idx);
+    
+    /** 현재 가장 큰 IDX 조회 */
+    Long selectMaxBoardIdx(); 
 
-    /** 다음 게시글 IDX 조회 (IDS2 테이블에서 가져옴) */
-    Long getNextBoardIdx();
-
-    /** IDS2 테이블의 NEXT_ID 값 증가 처리 */
-    void updateNextBoardIdx();
 }

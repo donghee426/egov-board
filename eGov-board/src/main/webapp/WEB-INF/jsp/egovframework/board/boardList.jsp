@@ -29,6 +29,13 @@
 	       	document.listForm.submit();
 	    }
 	    
+	 	/* 게시글 상세보기 (view.do로 이동) */
+	    function fn_egov_view(id) {
+	        document.listForm.selectedId.value = id;
+	        document.listForm.action = "<c:url value='/view.do'/>";
+	        document.listForm.submit();
+	    }
+	    
 	    /* 글 목록 화면 function */
 	    function fn_egov_selectList() {
 	    	document.listForm.action = "<c:url value='/boardList.do'/>";
@@ -48,6 +55,7 @@
 <h1 class="tc">자료실</h1>
 
 <form:form modelAttribute="searchVO" id="listForm" name="listForm" method="post">
+<input type="hidden" name="selectedId" />
 <div id="search" class="search_form mb15">
 	<ul class="form_group horizontal jcc">
 		<li>
@@ -56,7 +64,7 @@
 		    </label>
 			<form:select path="searchCondition" cssClass="use">
 				<c:set var="labelTitle"><spring:message code="search.title"/></c:set>
-<form:option value="0" label="${labelTitle}" />
+				<form:option value="0" label="${labelTitle}" />
 				<form:option value="1">
 				    <spring:message code="search.name" />
 				</form:option>
@@ -99,9 +107,9 @@
 	        	${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}
 	        </td>
 	        <td class="tl">
-	        	<a href="javascript:fn_egov_select('<c:out value="${board.idx}"/>')" class="ellipsis">
-	        		<c:out value="${board.title}" />
-	        	</a>
+			  <a href="${pageContext.request.contextPath}/view.do?idx=${board.idx}" class="ellipsis">
+			    <c:out value="${board.title}" />
+			  </a>
 	        </td>
 	        <td><c:out value="${board.username}" /></td>
 	        <td><fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd" /></td>
@@ -118,7 +126,7 @@
 		<form:hidden path="pageIndex" />
 	</div>
 	
-	<a href="javascript:fn_egov_addView();" class="btn small color1 posa posr"><spring:message code="button.create" /></a>
+	<a href="javascript:fn_egov_addView();" class="btn color1 posa posr"><spring:message code="button.create" /></a>
 </div>
 
 
