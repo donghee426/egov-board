@@ -3,22 +3,10 @@
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>게시글 등록</title>
-    <link rel="stylesheet" href="<c:url value='/css/egovframework/style.css' />" />
-    
-    <script type="text/javascript" defer="defer">
+<% request.setAttribute("pageTitle", "게시글 등록"); %>
+<%@ include file="/inc/header.jsp" %>
 
-
-    </script>
-</head>
-<body>
-<div id="container">
 <h1>${boardDTO.idx == null ? '게시글 등록' : '게시글 수정'}</h1>
-
 <form:form modelAttribute="boardDTO" method="post" action="${pageContext.request.contextPath}${boardDTO.idx == null ? '/writeProc.do' : '/updateProc.do'}">
 	<input type="hidden" name="idx" value="${boardDTO.idx}" />
     <table>
@@ -59,6 +47,4 @@
     </div>
 </form:form>
 
-</div>
-</body>
-</html>
+<%@ include file="/inc/footer.jsp" %>
